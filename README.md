@@ -13,3 +13,9 @@ $ npm install
 $ node server.js
 $ open http://localhost:3000/webshot
 ```
+
+## Still TODO
+
+* Settings: website URI and viewportsize should be parametrized
+* Integration Tests
+* Dockerize Webshotify

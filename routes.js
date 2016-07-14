@@ -18,11 +18,9 @@ const webshot = (req, res, next) => {
         killtree(webshoot.pid);
         console.error('child process killed due to a time out');
         res.send(408, new restify.RequestTimeoutError('Request Time-out'));
-    }, 3000);
+    }, 5000);
 
-    webshoot.stdout.on('data', chunk => {
-        stdout += chunk;
-    });
+    webshoot.stdout.on('data', chunk => stdout += chunk);
     webshoot.stdout.on('end', () => {
         clearTimeout(timer);
         res.setHeader('Cache', 'no-cache');
