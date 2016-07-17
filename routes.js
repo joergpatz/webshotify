@@ -11,14 +11,17 @@ const hello = (req, res, next) => {
 const webshot = (req, res, next) => {
     const webshootPath = path.resolve(__dirname, 'docker-run-webshoot');
     const defaultUri = 'http://info.cern.ch/hypertext/WWW/TheProject.html';
-    const webshoot = spawn('./webshoot.sh', [defaultUri], {cwd: webshootPath});
+    const uri = decodeURI(req.params.uri || defaultUri);
+    const viewportSizeX = parseInt(req.params.sizeX);
+    const viewportSizeY = parseInt(req.params.sizeY);
+    const webshoot = spawn('./webshoot.sh', [uri, viewportSizeX, viewportSizeY], {cwd: webshootPath});
 
     let stdout = '';
     let timer = setTimeout(() => {
         killtree(webshoot.pid);
         console.error('child process killed due to a time out');
         res.send(408, new restify.RequestTimeoutError('Request Time-out'));
-    }, 5000);
+    }, 12000);
 
     webshoot.stdout.on('data', chunk => stdout += chunk);
     webshoot.stdout.on('end', () => {

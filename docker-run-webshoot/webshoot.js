@@ -1,14 +1,16 @@
 "use strict";
 var page = require('webpage').create(),
     system = require('system'),
-    address;
+    address, viewportSizeX, viewportSizeY;
 
 if (system.args.length < 2) {
     console.error('Usage: webshoot.js URL');
     phantom.exit(1);
 } else {
-    address = system.args[1];
-    page.viewportSize = {width: 1024, height: 768};
+    address = decodeURI(system.args[1]);
+    viewportSizeX = parseInt(system.args[2]) || 1280;
+    viewportSizeY = parseInt(system.args[3]) || 720;
+    page.viewportSize = {width: viewportSizeX, height: viewportSizeY};
 
     page.open(address, function (status) {
         if (status !== 'success') {
@@ -19,7 +21,7 @@ if (system.args.length < 2) {
                 var base64 = page.renderBase64('PNG');
                 console.log(base64);
                 phantom.exit();
-            }, 200);
+            }, 1500);
         }
     });
 }
