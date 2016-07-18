@@ -11,11 +11,13 @@ A microservice for screenshotting websites
 
 ```bash
 $ npm install
-$ node server.js
+$ npm start
 $ open http://localhost:3000/webshot?uri=https://www.w3.org&sizeX=1280&sizeY=720
 ```
 
-## Still TODO
+## Tests
 
-* Integration Tests
-* Dockerize Webshotify
+```bash
+$ npm start
+$ npm test
+```
