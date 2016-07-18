@@ -7,10 +7,11 @@ var server = restify.createServer({name: 'Webshotify'});
 server.use(restify.fullResponse());
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
+server.use(restify.throttle({burst: 20, rate: 10, ip: true}));
 
 var port = normalizePort(process.env.NODE_PORT) || 3000;
 
-server.listen(port, function() {
+server.listen(port, function () {
     console.log('%s listening at %s', server.name, server.url);
 });
 
