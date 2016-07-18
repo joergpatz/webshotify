@@ -15,6 +15,8 @@ $ npm start
 $ open http://localhost:3000/webshot?uri=https://www.w3.org&sizeX=1280&sizeY=720
 ```
 
+![example](webshotify_example.png)
+
 ## Tests
 
 ```bash
