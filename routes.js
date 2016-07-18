@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import {spawn} from 'child_process';
 import path from 'path';
 import restify from 'restify';
 import killtree from './lib/killtree';
@@ -36,7 +36,11 @@ const webshot = (req, res, next) => {
             error = error.toString();
         }
         console.error('stderr: ' + error);
-        res.send(500, new restify.InternalServerError(error));
+        if (error.indexOf('WEBPAGE ERROR') === 0) {
+            res.send(502, new restify.BadGatewayError(error));
+        } else {
+            res.send(500, new restify.InternalServerError(error));
+        }
     });
     webshoot.on('close', code => {
         console.log(`child process exited with code ${code}`);

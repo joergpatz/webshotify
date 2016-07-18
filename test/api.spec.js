@@ -20,6 +20,18 @@ describe('API Integration Tests', function() {
                 done();
             });
     });
+    it('should respond "ResourceNotFound" json message', done => {
+        server.get("/random")
+            .expect("Content-type", /json/)
+            .expect(404)
+            .end((err, res) => {
+                if (err) return done(err);
+                res.should.have.status(404);
+                res.should.be.json();
+                res.body.code.should.be.equal('ResourceNotFound');
+                done();
+            });
+    });
     it('should respond default binary png image', done => {
         server.get("/webshot")
             .expect("Content-type", /png/)
@@ -41,6 +53,30 @@ describe('API Integration Tests', function() {
                 res.should.have.status(200);
                 res.should.have.header('content-type', 'image/png');
                 Buffer.isBuffer(res.body).should.be.true();
+                done();
+            });
+    });
+    it('should respond "InternalServerError" json message', done => {
+        server.get("/webshot?uri=http://zdxsdfcv")
+            .expect("Content-type", /json/)
+            .expect(500)
+            .end((err, res) => {
+                if (err) return done(err);
+                res.should.have.status(500);
+                res.should.be.json();
+                res.body.code.should.be.equal('InternalServerError');
+                done();
+            });
+    });
+    it('should respond "BadGatewayError" json message', done => {
+        server.get("/webshot?uri=http://test.webshotify.endofline.ws")
+            .expect("Content-type", /json/)
+            .expect(502)
+            .end((err, res) => {
+                if (err) return done(err);
+                res.should.have.status(502);
+                res.should.be.json();
+                res.body.code.should.be.equal('BadGatewayError');
                 done();
             });
     });
